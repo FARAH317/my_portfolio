@@ -1,6 +1,6 @@
 <template>
   <div class="carousel">
-    <div class="carousel__stage" @wheel.prevent="onWheel">
+    <div class="carousel__stage" @wheel.prevent="onWheel" @pointerdown="onPointerDown">
       <div
         v-for="(cert, i) in certificates"
         :key="cert.title + i"
@@ -8,7 +8,7 @@
         :style="cardStyle(i)"
       >
         <div class="carousel__image" v-if="cert.image" @click="openLightbox(cert)">
-          <img :src="cert.image" :alt="cert.title" />
+          <img :src="cert.image" :alt="cert.title" draggable="false" />
           <span class="carousel__zoom">{{ tr(ui.certificates.zoom) }}</span>
         </div>
         <div class="carousel__image carousel__image--placeholder" v-else>
@@ -71,6 +71,7 @@ const lightboxCert = ref(null)
 let wheelLock = false
 
 function openLightbox(cert) {
+  if (dragSuppressClick) return
   lightboxCert.value = cert
 }
 function closeLightbox() {
@@ -80,7 +81,11 @@ function handleKeydown(e) {
   if (e.key === 'Escape') closeLightbox()
 }
 onMounted(() => window.addEventListener('keydown', handleKeydown))
-onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('pointermove', onPointerMove)
+  window.removeEventListener('pointerup', onPointerUp)
+})
 
 
 function next() {
@@ -99,6 +104,43 @@ function onWheel(e) {
   if (e.deltaY > 0 || e.deltaX > 0) next()
   else prev()
   setTimeout(() => (wheelLock = false), 400)
+}
+
+// Drag-to-swipe (mouse + touch, via unified Pointer Events).
+let dragging = false
+let dragStartX = 0
+let dragDelta = 0
+let dragSuppressClick = false
+
+function onPointerDown(e) {
+  dragging = true
+  dragDelta = 0
+  dragStartX = e.clientX
+  window.addEventListener('pointermove', onPointerMove)
+  window.addEventListener('pointerup', onPointerUp)
+}
+
+function onPointerMove(e) {
+  if (!dragging) return
+  dragDelta = e.clientX - dragStartX
+}
+
+function onPointerUp() {
+  if (!dragging) return
+  dragging = false
+  window.removeEventListener('pointermove', onPointerMove)
+  window.removeEventListener('pointerup', onPointerUp)
+
+  const threshold = 50
+  if (dragDelta > threshold) prev()
+  else if (dragDelta < -threshold) next()
+
+  // Avoid the drag release being interpreted as a click on the certificate image.
+  if (Math.abs(dragDelta) > 10) {
+    dragSuppressClick = true
+    setTimeout(() => (dragSuppressClick = false), 200)
+  }
+  dragDelta = 0
 }
 
 function cardStyle(i) {
@@ -140,6 +182,19 @@ defineExpose({ next, prev })
   width: 100%;
   height: 540px;
   perspective: 1400px;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.carousel__stage:active {
+  cursor: grabbing;
+}
+
+@media (max-width: 600px) {
+  .carousel__stage {
+    height: 460px;
+  }
 }
 
 .carousel__card {
@@ -148,7 +203,7 @@ defineExpose({ next, prev })
   left: 50%;
   width: min(560px, 88%);
   height: 100%;
-  margin-left: min(-280px, -44%);
+  margin-left: calc(min(560px, 88%) / -2);
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -61,7 +61,7 @@ function buildEnvironment(renderer) {
   envScene.add(purplePanel)
 
   pmremGenerator = new THREE.PMREMGenerator(renderer)
-  const rt = pmremGenerator.fromScene(envScene, 0.06, 0.1, 50)
+  const rt = pmremGenerator.fromScene(envScene, 0.04, 0.1, 50)
   return rt.texture
 }
 

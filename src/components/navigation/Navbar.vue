@@ -21,22 +21,24 @@
       <span></span><span></span><span></span>
     </button>
 
-    <transition name="fade">
-      <div v-if="mobileOpen" class="navbar__mobile glass-panel">
-        <button class="navbar__close" @click="mobileOpen = false" aria-label="Fermer">✕</button>
-        <a
-          v-for="item in items"
-          :key="item.id"
-          href="#"
-          :class="{ active: activeId === item.id }"
-          @click.prevent="go(item.id)"
-        >{{ tr(item.label) }}</a>
-        <div class="navbar__lang navbar__lang--mobile">
-          <button :class="{ active: locale === 'fr' }" @click="setLocale('fr')">FR</button>
-          <button :class="{ active: locale === 'en' }" @click="setLocale('en')">EN</button>
+    <Teleport to="body">
+      <transition name="fade">
+        <div v-if="mobileOpen" class="navbar__mobile glass-panel">
+          <button class="navbar__close" @click="mobileOpen = false" aria-label="Fermer">✕</button>
+          <a
+            v-for="item in items"
+            :key="item.id"
+            href="#"
+            :class="{ active: activeId === item.id }"
+            @click.prevent="go(item.id)"
+          >{{ tr(item.label) }}</a>
+          <div class="navbar__lang navbar__lang--mobile">
+            <button :class="{ active: locale === 'fr' }" @click="setLocale('fr')">FR</button>
+            <button :class="{ active: locale === 'en' }" @click="setLocale('en')">EN</button>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </Teleport>
   </nav>
 </template>
 
@@ -202,6 +204,13 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    left: 20px;
+    transform: none;
+  }
+  .navbar__logo {
+    display: none;
+  }
   .navbar__links {
     display: none;
   }
@@ -217,15 +226,17 @@ onUnmounted(() => {
   position: fixed;
   top: 76px;
   left: 20px;
-  right: 20px;
+  width: 200px;
+  right: auto;
+  z-index: 150;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 28px 24px;
+  gap: 12px;
+  padding: 18px 20px;
 }
 
 .navbar__mobile a {
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   color: var(--ink-1);
 }
 
