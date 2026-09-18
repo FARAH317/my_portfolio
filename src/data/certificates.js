@@ -3,8 +3,9 @@
 // (certains cours ont été suivis en français, d'autres en anglais — c'est un fait,
 // pas un choix de langue du site). Seuls la date et les tags génériques sont bilingues.
 //
-// Pour ajouter une image de certificat : dépose le fichier dans public/certificates/
-// puis renseigne `image: '/certificates/nom-du-fichier.png'`.
+// Images placées directement à la racine de public/ (pas de sous-dossier).
+// Attention : la casse des noms de fichiers est respectée à l'identique (Vercel
+// est sensible à la casse, contrairement à Windows en local).
 
 export const certificates = [
   {
@@ -12,7 +13,7 @@ export const certificates = [
     organization: 'FreeAcademy.ai',
     date: { fr: 'Août 2026', en: 'August 2026' },
     credentialUrl: 'https://freeacademy.ai/verify/FA-2026-NAB-UB05NH',
-    image: 'public/n8n.PNG',
+    image: '/n8n.PNG',
     skills: ['n8n', { fr: 'Automatisation', en: 'Automation' }],
   },
   {
@@ -20,7 +21,7 @@ export const certificates = [
     organization: 'FreeAcademy.ai',
     date: { fr: 'Août 2026', en: 'August 2026' },
     credentialUrl: 'https://freeacademy.ai/verify/FA-2026-MPE-S6SOGW',
-    image: 'public/prompt.PNG',
+    image: '/prompt.PNG',
     skills: ['Prompt Engineering'],
   },
   {
@@ -28,7 +29,7 @@ export const certificates = [
     organization: 'Université Abou Bekr Belkaïd, Tlemcen (Faculté des Sciences)',
     date: { fr: 'Avril 2025', en: 'April 2025' },
     credentialUrl: '',
-    image: 'public/attestation.PNG',
+    image: '/attestation.png',
     skills: ['Tech Innovators 2025'],
   },
   {
@@ -36,7 +37,7 @@ export const certificates = [
     organization: 'Coddy',
     date: { fr: 'Août 2024', en: 'August 2024' },
     credentialUrl: '',
-    image: 'public/oop python.PNG',
+    image: '/oop_python.PNG',
     skills: ['Python', { fr: 'POO', en: 'OOP' }],
   },
   {
@@ -44,7 +45,7 @@ export const certificates = [
     organization: 'IBM Developer Skills Network / Cognitive Class',
     date: { fr: 'Juillet 2024', en: 'July 2024' },
     credentialUrl: 'https://courses.cognitiveclass.ai/certificates/d4e921750d6d492dabbe1c87a564de7e',
-    image: 'public/ibm.PNG',
+    image: '/ibm.PNG',
     skills: ['OpenAI GPT-3', 'IBM Watson', { fr: 'Assistant vocal', en: 'Voice assistant' }],
   },
   {
@@ -52,7 +53,7 @@ export const certificates = [
     organization: 'LinkedIn Learning',
     date: { fr: 'Juillet 2024', en: 'July 2024' },
     credentialUrl: '',
-    image: 'public/fondements ia.PNG',
+    image: '/fondements_ia.PNG',
     skills: [{ fr: 'Intelligence artificielle (IA)', en: 'Artificial Intelligence (AI)' }],
   },
   {
@@ -60,7 +61,7 @@ export const certificates = [
     organization: 'LinkedIn Learning',
     date: { fr: 'Juillet 2024', en: 'July 2024' },
     credentialUrl: '',
-    image: 'public/ethique de ia.PNG',
+    image: '/ethique_de_ia.PNG',
     skills: [
       { fr: "Éthique de l'informatique", en: 'Computing ethics' },
       { fr: 'IA générative', en: 'Generative AI' },
@@ -71,7 +72,7 @@ export const certificates = [
     organization: 'LinkedIn Learning',
     date: { fr: 'Juillet 2024', en: 'July 2024' },
     credentialUrl: '',
-    image: 'public/decouvrir ia.PNG',
+    image: '/decouvrir_ia.PNG',
     skills: [{ fr: 'IA générative', en: 'Generative AI' }],
   },
   {
@@ -79,7 +80,7 @@ export const certificates = [
     organization: 'LinkedIn Learning',
     date: { fr: 'Juillet 2024', en: 'July 2024' },
     credentialUrl: '',
-    image: 'public/copilot.PNG',
+    image: '/copilot.PNG',
     skills: ['Microsoft Copilot'],
   },
 ]
